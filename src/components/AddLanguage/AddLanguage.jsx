@@ -12,6 +12,22 @@ const AddLanguage = () => {
     const toggleComponents = () => {
         setAddLanguageButton(!addLanguageButton);
     }
+    const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleOptionClick = (option) => {
+    if (selectedOption === option) {
+      setSelectedOption(null); // Deselect the option if it's already selected
+    } else {
+      setSelectedOption(option); // Select the new option
+    }
+    setIsOpen(false); // Close the dropdown after selection
+  };
+  const options = ['Option 1', 'Option 2', 'Option 3'];
     return (
         <>
             {addLanguageButton ? (
@@ -22,7 +38,23 @@ const AddLanguage = () => {
                     <div className={styles.AddLanguageItemsContainer}>
                         <div className={styles.AddLanguageItemsContainerLanguageInput}>
                             <h3 className={styles.AddLanguageItemsContainerTitle}>Language</h3>
-                            <input className={styles.AddLanguageInput} type="text"/>
+                            {/* <input className={styles.AddLanguageInput} type="text"/> */}
+                            <div className={styles.dropdown}>
+      <div className={styles.dropdownToggle} onClick={toggleDropdown}>
+        {selectedOption || 'Select an option'}
+      </div>
+      <ul className={`${styles.dropdownMenu} ${isOpen ? styles.open : ''}`}>
+        {options.map((option, index) => (
+          <li 
+            key={index} 
+            onClick={() => handleOptionClick(option)} 
+            className={`${styles.dropdownItem} ${selectedOption === option ? styles.selected : ''}`}
+          >
+            {option}
+          </li>
+        ))}
+      </ul>
+    </div>
                         </div>
                         <div className={styles.AddLanguageItemsContainerTypes}>
                             <h3 className={styles.AddLanguageItemsContainerTypesTitle}>Proficiency</h3>
